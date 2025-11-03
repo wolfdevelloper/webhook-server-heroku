@@ -16,11 +16,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "ui", "index.html"));
 });
 // Importa e configura as rotas do clean-conversation
-require("./service/remove-conversation")(app);
+require("./service/remove-conversations")(app);
 require("./service/fetch-conversations")(app);
 require("./service/create-webhook")(app);
 require("./service/list-webhooks")(app);
 require("./service/remove-webhook")(app);
+require("./service/listener-twilio")(app);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

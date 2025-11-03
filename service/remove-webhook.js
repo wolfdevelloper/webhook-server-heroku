@@ -1,4 +1,5 @@
 // Endpoint que cria um webhook
+const twilio = require("twilio");
 module.exports = (app) => {
   app.post("/remove-webhook", async (req, res) => {
     console.log("Mensagem recebida:");

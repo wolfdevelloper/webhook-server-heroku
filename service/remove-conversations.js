@@ -1,6 +1,7 @@
 // Endpoint que remove a conversation
+const twilio = require("twilio");
 module.exports = (app) => {
-  app.post("/remove-conversation", async (req, res) => {
+  app.post("/remove-conversations", async (req, res) => {
     console.log("Mensagem recebida:");
     console.log(req.body);
 

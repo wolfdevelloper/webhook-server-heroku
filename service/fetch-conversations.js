@@ -1,18 +1,19 @@
 // Endpoint que lista a conversation
+const twilio = require("twilio");
 module.exports = (app) => {
-  app.post("/fetch-conversation", async (req, res) => {
+  app.post("/fetch-conversations", async (req, res) => {
     console.log("Mensagem recebida:");
     console.log(req.body);
-    
-    const { conversationSid } = req.body;
-    
+
+    const { conversationSid , accountSid, authToken } = req.body;
+
     // Validação se o conversationSid foi enviado
-    if (!conversationSid) {
-      return res.status(400).json({ error: "conversationSid é obrigatório" });
+    if (!conversationSid || !accountSid || !authToken) {
+      return res.status(400).json({ error: "Os campos conversationSid, accountSid e authToken são obrigatórios" });
     }
     
     try {
-      const conversations = await fetchConversation(conversationSid);
+      const conversations = await fetchConversation(conversationSid, accountSid, authToken);
       // Retorna a conversation como JSON
       res.status(200).json(conversations);
     } catch (error) {
@@ -22,7 +23,8 @@ module.exports = (app) => {
   });
 };
 
-async function fetchConversation(conversationSid) {
+async function fetchConversation(conversationSid, accountSid, authToken) {
+     const client = twilio(accountSid, authToken);
   try {
     const conversation = await client.conversations.v1
       .conversations(conversationSid)
